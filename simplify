@@ -1,0 +1,73 @@
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.simplify("a-(a-b)"));
+        System.out.println(solution.simplify("a-(a-(b+c))"));
+        System.out.println(solution.simplify("a-a"));
+        System.out.println(solution.simplify("a-b+c+d+e-f"));
+
+    }
+
+    //In Friday's interview, I used a char array to store the result.
+    //This method can cause a problem, if we have input like (a-a), it can't 
+    //give correct return, which is 0;
+    
+    //So I changed the char array to an integer array,
+    //which records the number of occurrences of each character
+    //After traversing the string, we traverse the integer array 
+    //to see how many characters are still available, and then
+    //get the result.
+
+    public String simplify(String str) {
+        int[] res = new int[26];
+        int factor = 1;
+        Stack<Integer> stack = new Stack<>();
+        
+        //invert used to flip the operator if we meet "("
+        int invert = 1;
+
+        for(char c : str.toCharArray()) {
+            if(c <= 'z' && c >= 'a') {
+                res[c-'a'] += factor * invert;
+            } else if(c == '-') {
+                factor = -1;
+            } else if(c == '+') {
+                factor = 1;
+            } else if(c == '(') {
+                stack.push(factor);
+                invert *= stack.peek();
+                factor = 1;
+            } else if(c == ')') {
+                invert *= stack.peek();
+                stack.pop();
+            }
+        }
+        
+        String string = "";
+        String leading = "";
+
+        for(char c = 'a'; c < 'z'; c++) {
+            if(res[c -'a'] > 0) {
+                for(int i=0; i<res[c-'a']; i++) {
+                    string += leading;
+                    string += c;
+                    leading = "+";
+                }
+            }
+            if(res[c-'a'] < 0) {
+                for(int i=0; i<Math.abs(res[c-'a']); i++) {
+                    string += "-";
+                    string += c;
+                    leading = "+";
+                }
+            }
+        }
+
+        if(string.isEmpty()) {
+            return "0";
+        }
+        return string;
+    }
+}
