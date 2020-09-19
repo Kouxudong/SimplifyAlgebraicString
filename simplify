@@ -3,11 +3,10 @@ import java.util.*;
 public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.simplify("a-(a-b)"));
-        System.out.println(solution.simplify("a-(a-(b+c))"));
-        System.out.println(solution.simplify("a-a"));
-        System.out.println(solution.simplify("a-b+c+d+e-f"));
-
+        System.out.println(solution.simplify("a-(a-b)")); //b
+        System.out.println(solution.simplify("a-(a-(b+c))")); // b+c
+        System.out.println(solution.simplify("a-a")); //0
+        System.out.println(solution.simplify("a-b+c+d+e-f")); //a-b+c+d+e-f
     }
 
     //In Friday's interview, I used a char array to store the result.
@@ -50,14 +49,14 @@ public class Solution {
 
         for(char c = 'a'; c < 'z'; c++) {
             if(res[c -'a'] > 0) {
-                for(int i=0; i<res[c-'a']; i++) {
+                for(int i = 0; i < res[c -'a']; i++) {
                     string += leading;
                     string += c;
                     leading = "+";
                 }
             }
             if(res[c-'a'] < 0) {
-                for(int i=0; i<Math.abs(res[c-'a']); i++) {
+                for(int i = 0; i < Math.abs(res[c -'a']); i++) {
                     string += "-";
                     string += c;
                     leading = "+";
@@ -68,6 +67,7 @@ public class Solution {
         if(string.isEmpty()) {
             return "0";
         }
+        
         return string;
     }
 }
