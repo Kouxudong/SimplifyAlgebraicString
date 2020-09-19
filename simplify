@@ -4,6 +4,7 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution.simplify("a-(a-b)")); //b
+        System.out.println(solution.simplify("a-(a+b)")); //-b
         System.out.println(solution.simplify("a-(a-(b+c))")); // b+c
         System.out.println(solution.simplify("a-a")); //0
         System.out.println(solution.simplify("a-b+c+d+e-f")); //a-b+c+d+e-f
